@@ -1,0 +1,121 @@
+syntax = "v1"
+
+info (
+	title:   "GORM Demo API"
+	desc:    "API for managing users and goods using GORM"
+	version: "1.0"
+)
+
+// 通用返回模型
+type CommonResponse {
+	Status int         `json:"status"` // 状态码，例如 200 表示成功
+	Msg    string      `json:"msg"` // 返回消息
+	Data   interface{} `json:"data"` // 返回数据（可以是任意类型）
+}
+
+// 用户基础字段
+type UserBase {
+	Name     string `json:"name"`
+	Age      int    `json:"age"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+// 用户查询
+type GetUserByIdReq {
+	ID int `path:"id" validate:"gt=0"`
+}
+
+// 商品基础字段
+type GoodsBase {
+	Name  string  `json:"name"`
+	Price float64 `json:"price"`
+	Stock int     `json:"stock"`
+}
+
+// AddUserRequest 用于添加用户的请求体
+type AddUserRequest {
+	UserBase
+}
+
+// UpdateUserRequest 用于修改用户的请求体
+type UpdateUserRequest {
+	ID uint `json:"id"` // 主键，必须传递
+	UserBaseOptional
+}
+
+// UserBaseOptional 定义可选字段
+type UserBaseOptional {
+	Name     *string `json:"name,omitempty" validate:"omitempty,min=2"`
+	Age      *int    `json:"age,omitempty" validate:"omitempty,gte=0,lte=120"`
+	Email    *string `json:"email,omitempty" validate:"omitempty,email"`
+	Password *string `json:"password,omitempty" validate:"omitempty,min=6"`
+}
+
+// AddGoodsRequest 用于添加商品的请求体
+type AddGoodsRequest {
+	GoodsBase
+}
+
+// UpdateGoodsRequest 用于修改商品的请求体
+type UpdateGoodsRequest {
+	ID uint `json:"id"` // 主键，必须传递
+	GoodsBaseOptional
+}
+
+// GoodsBaseOptional 定义可选字段
+type GoodsBaseOptional {
+	Name  *string  `json:"name,omitempty"`
+	Price *float64 `json:"price,omitempty"`
+	Stock *int     `json:"stock,omitempty"`
+}
+
+// AdminLoginRequest 用于管理员登录的请求体
+type AdminLoginRequest {
+	Email    string `json:"email" validate:"required,email"` // 管理员邮箱
+	Password string `json:"password" validate:"required,min=6"` // 管理员密码
+}
+
+// AdminLoginResponse 登录成功后的返回数据
+type AdminLoginResponse {
+	Token string   `json:"token"` // JWT 或其他认证令牌
+	User  UserBase `json:"user"` // 用户信息（可选）
+}
+
+// 统一服务定义
+@server (
+	middleware: "JwtAuthMiddleware"
+)
+// 统一服务定义
+service gorm-api {
+	// 用户相关接口
+	@handler CreateUserHandler
+	post /user/create (AddUserRequest) returns (CommonResponse)
+
+	@handler GetUserByIdHandler
+	get /user/:id returns (CommonResponse)
+
+	@handler UpdateUserHandler
+	put /user/update (UpdateUserRequest) returns (CommonResponse)
+
+	@handler DeleteUserHandler
+	delete /user/delete/:id returns (CommonResponse)
+
+	// 商品相关接口
+	@handler CreateGoodsHandler
+	post /goods/create (AddGoodsRequest) returns (CommonResponse)
+
+	@handler GetGoodsByIdHandler
+	get /goods/:id returns (CommonResponse)
+
+	@handler UpdateGoodsHandler
+	put /goods/update (UpdateGoodsRequest) returns (CommonResponse)
+
+	@handler DeleteGoodsHandler
+	delete /goods/delete/:id returns (CommonResponse)
+
+	// 管理员相关接口
+	@handler AdminLoginHandler
+	post /admin/login (AdminLoginRequest) returns (CommonResponse)
+}
+

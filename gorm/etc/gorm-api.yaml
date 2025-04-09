@@ -1,0 +1,6 @@
+Name: gorm-api
+Host: 0.0.0.0
+Port: 8888
+DataSource:
+  Driver: mysql
+  DSN: "root:root@tcp(127.0.0.1:3306)/go_study?parseTime=true&loc=Local"
