@@ -3,10 +3,12 @@ package logic
 import (
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 	"gorm/internal/model"
 	"gorm/internal/utils"
 	"strings"
+	"time"
 
 	"gorm/internal/svc"
 	"gorm/internal/types"
@@ -54,6 +56,17 @@ func (l *AdminLoginLogic) AdminLogin(req *types.AdminLoginRequest) (resp *types.
 	token, err := utils.CreatedJwtToken(user.ID, user.Email)
 	if err != nil {
 		return nil, err
+	}
+	// 把 token存到redis
+	userIDStr := fmt.Sprintf("%d", user.ID)
+	expiration := time.Hour * 1 // token 过期时间
+	err = l.svcCtx.RedisClient.Set(context.Background(), userIDStr, token, expiration).Err()
+	if err != nil {
+		return &types.CommonResponse{
+			Status: 500,
+			Msg:    "Failed to store user session in Redis",
+			Data:   nil,
+		}, nil
 	}
 	// 构造返回数据
 	loginResponse := types.AdminLoginResponse{

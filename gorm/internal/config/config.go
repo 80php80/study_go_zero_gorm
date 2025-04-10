@@ -8,7 +8,15 @@ type DataSource struct {
 	DSN    string `json:"DSN"`
 }
 
+// Redis 配置
+type Redis struct {
+	Addr     string `json:"Addr"`
+	Password string `json:"Password"`
+	DB       int    `json:"DB"`
+}
+
 type Config struct {
 	rest.RestConf
 	DataSource DataSource `json:"DataSource"`
+	Redis      Redis      `json:"Redis"`
 }
