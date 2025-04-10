@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"gorm/internal/job"
 
 	"gorm/internal/config"
 	"gorm/internal/handler"
@@ -26,6 +27,10 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+
+	// 初始化job
+	bulkInsertJob := job.NewBulkInsertJob(ctx)
+	bulkInsertJob.Run()
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
