@@ -20,7 +20,11 @@ func NewBulkInsertJob(svcCtx *svc.ServiceContext) *BulkInsertJob {
 	}
 }
 
-func (j *BulkInsertJob) Run() string {
+func (c *BulkInsertJob) Name() string {
+	return "BulkInsertJob"
+}
+
+func (j *BulkInsertJob) Run() error {
 	batchSize := 1000         // 每次插入的数据
 	totalRecords := 1_000_000 //总记录数
 	newWorkers := 10          // 并发协程数
@@ -62,6 +66,6 @@ func (j *BulkInsertJob) Run() string {
 	elapsed := time.Since(startTime)
 	logx.Infof("Finished inserting %d records in %v", totalRecords, elapsed)
 
-	return "bulk insert job"
+	return nil
 
 }

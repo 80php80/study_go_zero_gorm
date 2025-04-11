@@ -28,10 +28,19 @@ func main() {
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 
-	// 初始化job
-	bulkInsertJob := job.NewBulkInsertJob(ctx)
-	bulkInsertJob.Run()
+	// 初始化 Job 管理器
+	jobManager := job.NewJobManager()
 
-	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
+	// 添加 Job 到管理器中
+	jobManager.AddJob(job.NewBulkInsertJob(ctx))
+	jobManager.AddJob(job.NewCheckGoodsJob(ctx))
+
+	// 异步启动所有 Job
+	go func() {
+		fmt.Println("Starting all jobs...")
+		jobManager.Start()
+	}()
+
+	fmt.Printf("Stasrting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }
