@@ -30,7 +30,6 @@ func main() {
 
 	// 初始化 Job 管理器
 	jobManager := job.NewJobManager()
-
 	// 添加 Job 到管理器中
 	jobManager.AddJob(job.NewBulkInsertJob(ctx))
 	jobManager.AddJob(job.NewCheckGoodsJob(ctx))

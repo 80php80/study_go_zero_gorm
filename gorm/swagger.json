@@ -1,0 +1,496 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "GORM Demo API",
+    "description": "API for managing users and goods using GORM",
+    "version": "1.0"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/admin/login": {
+      "post": {
+        "operationId": "AdminLoginHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " AdminLoginRequest 用于管理员登录的请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminLoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/goods/create": {
+      "post": {
+        "operationId": "CreateGoodsHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " AddGoodsRequest 用于添加商品的请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddGoodsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/goods/delete/{id}": {
+      "delete": {
+        "operationId": "DeleteGoodsHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/goods/update": {
+      "put": {
+        "operationId": "UpdateGoodsHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " UpdateGoodsRequest 用于修改商品的请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateGoodsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/goods/{id}": {
+      "get": {
+        "operationId": "GetGoodsByIdHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/user/create": {
+      "post": {
+        "operationId": "CreateUserHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " AddUserRequest 用于添加用户的请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/user/delete/{id}": {
+      "delete": {
+        "operationId": "DeleteUserHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/user/update": {
+      "put": {
+        "operationId": "UpdateUserHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " UpdateUserRequest 用于修改用户的请求体",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "operationId": "GetUserByIdHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CommonResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "gorm-api"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddGoodsRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "AddGoodsRequest"
+    },
+    "AddUserRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "AddUserRequest"
+    },
+    "AdminLoginRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": " 管理员邮箱"
+        },
+        "password": {
+          "type": "string",
+          "description": " 管理员密码"
+        }
+      },
+      "title": "AdminLoginRequest",
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "AdminLoginResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": " JWT 或其他认证令牌"
+        },
+        "user": {
+          "$ref": "#/definitions/UserBase",
+          "description": " 用户信息（可选）"
+        }
+      },
+      "title": "AdminLoginResponse",
+      "required": [
+        "token",
+        "user"
+      ]
+    },
+    "CommonResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态码，例如 200 表示成功"
+        },
+        "msg": {
+          "type": "string",
+          "description": " 返回消息"
+        },
+        "data": {
+          "type": "object",
+          "description": " 返回数据（可以是任意类型）"
+        }
+      },
+      "title": "CommonResponse",
+      "required": [
+        "status",
+        "msg",
+        "data"
+      ]
+    },
+    "GetUserByIdReq": {
+      "type": "object",
+      "title": "GetUserByIdReq"
+    },
+    "GoodsBase": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GoodsBase",
+      "required": [
+        "name",
+        "price",
+        "stock"
+      ]
+    },
+    "GoodsBaseOptional": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GoodsBaseOptional"
+    },
+    "UpdateGoodsRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "uint32",
+          "description": " 主键，必须传递"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateGoodsRequest",
+      "required": [
+        "id"
+      ]
+    },
+    "UpdateUserRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "uint32",
+          "description": " 主键，必须传递"
+        },
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateUserRequest",
+      "required": [
+        "id"
+      ]
+    },
+    "UserBase": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UserBase",
+      "required": [
+        "name",
+        "age",
+        "email",
+        "password"
+      ]
+    },
+    "UserBaseOptional": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "UserBaseOptional"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
