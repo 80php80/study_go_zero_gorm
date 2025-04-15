@@ -8,3 +8,5 @@ Redis:
   Addr: "localhost:6379"
   Password: ""
   DB: 0
+Middlewares:
+  Log: true

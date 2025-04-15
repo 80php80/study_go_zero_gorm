@@ -3,6 +3,7 @@ package job
 import (
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm/internal/svc"
+	"sync"
 )
 
 type CheckGoodsJob struct {
@@ -20,9 +21,15 @@ func (j *CheckGoodsJob) Name() string {
 }
 
 func (j *CheckGoodsJob) Run() error {
-	for i := 0; i < 100; i++ {
-		logx.Infof("这是第二个任务 %d", i)
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func(num int) {
+			defer wg.Done()
+			logx.Infof("这是第二个任务 %d", num)
+		}(i)
 	}
+	wg.Wait()
 	return nil
 
 }
