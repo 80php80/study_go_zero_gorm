@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package goodsrpc;
+
+option go_package = "./goodsrpc";
+
+service GoodsService {
+  rpc CheckGoods (CheckGoodsRequest) returns (CheckGoodsResponse);
+}
+
+message CheckGoodsRequest {
+  int64 goods_id = 1;
+}
+
+
+message CheckGoodsResponse {
+  bool is_available = 1;
+  string message = 2;
+}

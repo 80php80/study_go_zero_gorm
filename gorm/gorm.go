@@ -32,7 +32,7 @@ func main() {
 	jobManager := job.NewJobManager()
 
 	// 添加 Job 到管理器中
-	jobManager.AddJob(job.NewBulkInsertJob(ctx))
+	//jobManager.AddJob(job.NewBulkInsertJob(ctx))
 	jobManager.AddJob(job.NewCheckGoodsJob(ctx))
 
 	// 异步启动所有 Job
