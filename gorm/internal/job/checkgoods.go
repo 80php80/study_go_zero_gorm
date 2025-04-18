@@ -30,6 +30,7 @@ func (j *CheckGoodsJob) Run() error {
 		}(i)
 	}
 	wg.Wait()
+
 	return nil
 
 }

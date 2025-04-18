@@ -32,7 +32,7 @@ func (m *JobManager) Start() {
 			defer wg.Done()
 			logx.Infof("Starting job: %s", j.Name()) // 使用 logx 输出日志
 			if err := j.Run(); err != nil {
-				logx.Errorf("Job %s failed: %v", j.Name(), err)
+				logx.Infof("Job %s failed: %v", j.Name(), err)
 			} else {
 				logx.Infof("Job %s completed successfully", j.Name())
 			}
